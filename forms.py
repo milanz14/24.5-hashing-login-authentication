@@ -6,6 +6,11 @@ class RegisterForm(FlaskForm):
     """ user Registration form """
     username = StringField('Username', validators=[InputRequired()])
     password = PasswordField('Password', validators=[InputRequired()])
-    email = StringField('Email', validators=[Email()])
+    email = StringField('Email', validators=[InputRequired(), Email()])
     firstname = StringField('First Name', validators=[InputRequired()])
     lastname = StringField('Last Name', validators=[InputRequired()])
+
+class LoginForm(FlaskForm):
+    """ user Login form """
+    username = StringField('Username', validators=[InputRequired()])
+    password = PasswordField('Password', validators=[InputRequired()])

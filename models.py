@@ -14,20 +14,20 @@ class User(db.Model):
     username = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
-    first_name = db.Column(db.String(30), nullable=False)
-    last_name = db.Column(db.String(30), nullable=False)
+    firstname = db.Column(db.String(30), nullable=False)
+    lastname = db.Column(db.String(30), nullable=False)
 
     @classmethod
-    def register(cls, username, pwd):
+    def register(cls, username, password, email, firstname, lastname):
         """ Register user with hashed password & return user """
-        hashed = bcrypt.generate_password_hash(pwd)
+        hashed = bcrypt.generate_password_hash(password)
         hashed_utf8 = hashed.decode('utf8')
 
-        # return instance of user w username and hashed pwd
-        return cls(username=username, password=hashed_utf8)
+        # return instance of user w username and hashed pwd along with relevant user info
+        return cls(username=username, password=hashed_utf8, email=email, firstname=firstname, lastname=lastname)
 
     @classmethod
-    def authenticate(cls, username, pwd):
+    def authenticate(cls, username, password):
         """ check if the user requesting authentication is valid
         Return user if valid; else return false """
 
@@ -36,7 +36,7 @@ class User(db.Model):
 
         #if the user exists and the password hash check passes:
         # compares database password and hash result of passed in password
-        if u and bcrypt.check_password_hash(u.password, pwd):
+        if u and bcrypt.check_password_hash(u.password, password):
             return u
         else:
             return False
