@@ -46,7 +46,7 @@ def show_secret_route():
         flash('You must be logged in to see this.')
         return redirect('/login')
     else:
-        return 'You made it!'
+        return render_template('secret.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login_user():
@@ -65,3 +65,10 @@ def login_user():
             form.username.errors = ['Bad password or Incorrect username']
     else:
         return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout_user():
+    """ log out user and redirect to '/' """
+    session.pop('username')
+    flash('Successfully logged out!')
+    return redirect('/')
