@@ -34,33 +34,35 @@ def user_registration_route():
             return redirect('/register')
         session['username'] = username
         flash(f'Welcome, {username}!')
-        return redirect('/secret')
+        return redirect('/users')
     else:
         return render_template('register.html', form=form)
 
-@app.route('/secret')
-def show_secret_route():
+@app.route('/users/<username>')
+def show_secret_route(username):
     """ show the secret route once a user is registered and
     stored in session """
+    user = User.query.filter_by(username=username).first()
+
     if 'username' not in session:
         flash('You must be logged in to see this.')
         return redirect('/login')
     else:
-        return render_template('secret.html')
+        return render_template('userinfo.html', user=user)
 
 @app.route('/login', methods=['GET','POST'])
 def login_user():
     """ log user in """
     form = LoginForm()
     if form.validate_on_submit():
-        username = form.username.date
+        username = form.username.data
         password = form.password.data
         #authenticate with User model classmethod
         user = User.authenticate(username, password)
         if user:
             session['username'] = username
             flash(f'Welcome back, {username}!')
-            return redirect('/secret')
+            return redirect(f'/users/{username}')
         else:
             form.username.errors = ['Bad password or Incorrect username']
     else:
