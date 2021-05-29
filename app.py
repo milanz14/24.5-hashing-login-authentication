@@ -48,8 +48,16 @@ def show_secret_route():
 def login_user():
     """ log user in """
     form = LoginForm()
-
     if form.validate_on_submit():
-        pass
+        username = form.username.date
+        password = form.password.data
+        #authenticate with User model classmethod
+        user = User.authenticate(username, password)
+        if user:
+            session['username'] = username
+            flash(f'Welcome back, {username}!')
+            return redirect('/secret')
+        else:
+            form.username.errors = ['Bad password or Incorrect username']
     else:
         return render_template('login.html', form=form)
