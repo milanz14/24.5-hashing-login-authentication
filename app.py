@@ -42,6 +42,16 @@ def user_registration_route():
 def show_secret_route():
     """ show the secret route once a user is registered and
     stored in session """
+    if 'username' not in session:
+        flash('You must be logged in to see this.')
+        return redirect('/login')
+    
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        user = User.authenticate(username, password)
     return 'You made it!'
 
 @app.route('/login', methods=['GET','POST'])

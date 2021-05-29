@@ -2,9 +2,12 @@
 
 {% block content %}
     <h1 class="text-center">Login</h1>
+    <h4 class="text-center">Don't have an account? <a href="/register">Register here.</a></h4>
+    <div class="text-center">
         {% for msg in get_flashed_messages() %}
             {{ msg }}
         {% endfor %}
+    </div>
     <div class="container">
         <form action="/login" method="POST">
             {{ form.hidden_tag() }}

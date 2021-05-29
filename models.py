@@ -32,11 +32,11 @@ class User(db.Model):
         Return user if valid; else return false """
 
         #find the user in the database
-        u = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first()
 
         #if the user exists and the password hash check passes:
         # compares database password and hash result of passed in password
-        if u and bcrypt.check_password_hash(u.password, password):
-            return u
+        if user and bcrypt.check_password_hash(user.password, password):
+            return user
         else:
             return False
