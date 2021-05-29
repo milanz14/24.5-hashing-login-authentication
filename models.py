@@ -40,3 +40,11 @@ class User(db.Model):
             return user
         else:
             return False
+
+class Feedback(db.Model):
+    """ model for feedback that a user can leave """
+    __tablename__ = 'feedback'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    user_feedback = db.Column(db.Text, db.ForeignKey('users.username'))
