@@ -43,12 +43,38 @@ def show_secret_route(username):
     """ show the secret route once a user is registered and
     stored in session """
     user = User.query.filter_by(username=username).first()
-
+    # need to add the Feedback query here to find feedback tied to the logged in user
     if 'username' not in session:
         flash('You must be logged in to see this.')
         return redirect('/login')
     else:
         return render_template('userinfo.html', user=user)
+
+@app.route('/users/<username>/feedback/add')
+def show_activer_user_feedback(username):
+    user = User.query.filter_by(username=username).first()
+    if 'username' not in session:
+        flash('You must be logged in to perform this action.')
+        return redirect('/login')
+    else:
+        return render_template('addfeedback.html', user=user)
+
+@app.route('/users/<username>/delete', methods=['DELETE'])
+def delete_user(username):
+    """ delete the user and the feedback tied to the user """
+    pass
+
+@app.route('/feedback/<int:feedback_id>/update', methods=['GET','POST'])
+def update_feedback(feedback_id):
+    """ GET feedback form if it's the logged in user
+    and UPDATE via POST if the logged in user wrote the feedback """
+    pass
+
+@app.route('/feedback/<int:feedback_id>/delete', methods=['DELETE'])
+def delete_specific_feedback(feedback_id):
+    """ delete a specific piece of feedback if logged in user wrote it """
+    pass
+
 
 @app.route('/login', methods=['GET','POST'])
 def login_user():
