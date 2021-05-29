@@ -30,7 +30,7 @@ def user_registration_route():
             db.session.add(new_user)
             db.session.commit()
         except:
-            flash('Something went wrong.')
+            flash('Something went wrong')
             return redirect('/register')
         session['username'] = username
         flash(f'Welcome, {username}!')
